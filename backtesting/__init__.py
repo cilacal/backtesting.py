@@ -59,4 +59,5 @@ except ImportError:
 
 from . import lib  # noqa: F401
 from ._plotting import set_bokeh_output  # noqa: F401
-from .backtesting import Backtest, Strategy  # noqa: F401
+from .backtesting import Backtest, Strategy, _Broker, _OutOfMoneyError  # noqa: F401
+from .monitoring import Monitor
