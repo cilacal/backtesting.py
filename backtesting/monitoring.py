@@ -106,8 +106,7 @@ class Monitor:
         Run the monitoring. Returns a signal of type of string with possible values: "BUY", "SELL", None
         """
         # Get the maximum value from strategy parameters and keep the necessary data only
-        #full_data = self._data.copy(deep=False)
-        max_param_value = max(self._strategy.params.values())
+        max_param_value = max([getattr(self._strategy, attr) for attr in [attr for attr in dir(self._strategy) if attr.startswith("param")]])
         self._data = self._data.iloc[-(max_param_value+1):]
 
         data = _Data(self._data.copy(deep=False))
