@@ -106,8 +106,9 @@ class Monitor:
         Run the monitoring. Returns a signal of type of string with possible values: "BUY", "SELL", None
         """
         # Get the maximum value from strategy parameters and keep the necessary data only
-        max_param_value = max([getattr(self._strategy, attr) for attr in [attr for attr in dir(self._strategy) if attr.startswith("param")]])
-        self._data = self._data.iloc[-(max_param_value+1):]
+        max_param_value = max([getattr(self._strategy, attr) for attr in [attr for attr in dir(self._strategy) if attr.startswith("param")]], default=50)
+        min_param_value = min([getattr(self._strategy, attr) for attr in [attr for attr in dir(self._strategy) if attr.startswith("param")]], default=50) # with both 50 default parameters, at least 101 data points are used for monitoring
+        self._data = self._data.iloc[-(max_param_value+min_param_value+1):] # +min_param_value+1 to work with the indicators that based on differences (e.g. MACD)
 
         data = _Data(self._data.copy(deep=False))
         broker: _Broker = self._broker(data=data)
